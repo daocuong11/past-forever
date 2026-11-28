@@ -513,5 +513,19 @@ is(out('hunt c from 0 to 1:\n    hunt d from 0 to 0:\n        show d\n    show c
   has(sing, "startsWith(docs + path.sep)", 'tests/sing.js serves only files inside docs/ (uncontrolled path)');
 }
 
+// ── the CLI says plainly when it cannot read the program (#30)
+{
+  const { spawnSync } = require('child_process');
+  const cli = (...a) => spawnSync('node', [path.join(__dirname, '..', 'cli.js'), ...a], { encoding: 'utf8' });
+  const missing = cli('examples/grahm.txt');
+  is(missing.status, 1, 'cli: missing file exits 1');
+  is(missing.stdout.trim(), "can't open examples/grahm.txt: no such file", 'cli: missing file says so plainly');
+  is(missing.stderr, '', 'cli: missing file prints no stack trace');
+  const folder = cli('examples');
+  is(folder.status, 1, 'cli: a folder exits 1');
+  is(folder.stdout.trim(), 'examples is a folder: name one program, like examples/graham.txt', 'cli: a folder says so plainly');
+  is(folder.stderr, '', 'cli: a folder prints no stack trace');
+}
+
 console.log(bad ? 'FAILED: ' + bad + ' of ' + n + ' checks' : 'ok: ' + n + ' checks');
 process.exit(bad ? 1 : 0);
