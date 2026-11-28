@@ -133,7 +133,7 @@ You need Node.js 18 or newer. There are no dependencies.
 ```
 git clone https://github.com/connabyss/past-forever && cd past-forever
 node cli.js examples/own_square.txt --why
-node tests/run.js        # ok: 712 checks
+node tests/run.js        # ok: N checks
 node tests/referee.js    # the random cross-check, about 5 minutes
 node tests/certify_gen.js 300 2027 | python3 tests/certify.py   # the independent checker, about a minute
 ```
